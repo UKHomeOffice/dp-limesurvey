@@ -9,3 +9,16 @@ pipeline:
     when:
       branch: master
       event: push
+  publish:
+    image: docker:17.09.1
+    secrets:
+      - docker_password
+    environment:
+      - DOCKER_HOST=tcp://172.17.0.1:2375
+    commands:
+      - docker login -u="ukhomeofficedigital+dp_non_iapi" -p=$${DOCKER_PASSWORD} quay.io
+      - docker tag <image_name> quay.io/ukhomeofficedigital/<your_quay_repo>:$${DRONE_COMMIT_SHA}
+      - docker push quay.io/ukhomeofficedigital/<your_quay_repo>:$${DRONE_COMMIT_SHA}
+    when:
+      branch: master
+      event: push
