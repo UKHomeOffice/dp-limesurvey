@@ -1,4 +1,5 @@
 FROM ubuntu:trusty
+LABEL maintainer="leigh.anderson@digital.homeoffice.gov.uk"
 
 RUN apt update && apt install -y php5 php5-mysql curl
 
