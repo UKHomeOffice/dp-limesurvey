@@ -5,7 +5,7 @@ RUN apt update && apt install -y php5 php5-mysql curl
 
 RUN ln -s /dev/stdout /var/log/apache2/access_log && \
     ln -s /dev/stderr /var/log/apache2/error_log
-RUN rm /var/www/html/index.html
+RUN rm /var/www/html/index.html && touch /var/www/html/foo
 
 RUN curl https://download.limesurvey.org/latest-stable-release/limesurvey3.5.3+180316.tar.bz2 | \
     tar jx --strip-components 1 -C /var/www/html
