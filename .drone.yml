@@ -17,6 +17,7 @@ pipeline:
       - DOCKER_HOST=tcp://172.17.0.1:2375
     commands:
       - docker login -u="ukhomeofficedigital+dp_non_iapi" -p=$${DOCKER_PASSWORD} quay.io
+      - docker tag dp-limesurvey quay.io/ukhomeofficedigital/dp-limesurvey:latest
       - docker push quay.io/ukhomeofficedigital/dp-limesurvey:latest
     when:
       branch: master
