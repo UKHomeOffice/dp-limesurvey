@@ -1,0 +1,17 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: dp-limesurvey
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: dp-limesurvey
+    spec:
+      containers:
+      - name: dp-survey
+        image: quay.io/ukhomeofficedigital/dp-limesurvey:latest
+        ports:
+          - containerPort: 80
