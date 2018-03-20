@@ -5,7 +5,7 @@ pipeline:
     environment:
       - DOCKER_HOST=tcp://172.17.0.1:2375
     commands:
-      - docker build --no-cache -t dp-limesurvey -f Dockerfile.testing .
+      - docker build --no-cache -t dp-limesurvey:$${DRONE_BUILD_NUMBER}  -f Dockerfile.testing .
     when:
       branch: master
       event: push
@@ -17,7 +17,7 @@ pipeline:
       - DOCKER_HOST=tcp://172.17.0.1:2375
     commands:
       - docker login -u="ukhomeofficedigital+dp_non_iapi" -p=$${DOCKER_PASSWORD} quay.io
-      - docker tag dp-limesurvey quay.io/ukhomeofficedigital/dp-limesurvey:latest
+      - docker tag dp-limesurvey:$${DRONE_BUILD_NUMBER} quay.io/ukhomeofficedigital/dp-limesurvey:latest
       - docker push quay.io/ukhomeofficedigital/dp-limesurvey:latest
     when:
       branch: master
