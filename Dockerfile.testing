@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM fedora:latest
 
 RUN touch /foo
 RUN rm /foo && touch bar
