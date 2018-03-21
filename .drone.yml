@@ -5,7 +5,7 @@ pipeline:
     environment:
       - DOCKER_HOST=tcp://172.17.0.1:2375
     commands:
-      - docker build --no-cache -t dp-limesurvey:$${DRONE_BUILD_NUMBER}  -f Dockerfile.testing .
+      - docker build -t dp-limesurvey:$${DRONE_BUILD_NUMBER}  -f Dockerfile .
     when:
       branch: master
       event: push
