@@ -9,5 +9,5 @@ spec:
       paths:
       - backend:
           serviceName: dp-limesurvey-service
-          servicePort: 80
+          servicePort: 10080
         path: /
