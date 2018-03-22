@@ -14,4 +14,4 @@ spec:
       - name: dp-survey
         image: quay.io/ukhomeofficedigital/dp-limesurvey:latest
         ports:
-          - containerPort: 80
+          - containerPort: 10080
