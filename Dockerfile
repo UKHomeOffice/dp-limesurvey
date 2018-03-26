@@ -7,13 +7,16 @@ RUN ln -sf /dev/stdout /var/log/apache2/access.log && \
     ln -sf /dev/stderr /var/log/apache2/error.log
 RUN chown -R www-data /var/log/apache2
 RUN chown -R www-data /var/run/apache2
-RUN chown -R www-data /var/www/html
-RUN rm /var/www/html/index.html && touch /var/www/html/foo
+RUN rm /var/www/html/index.html
 COPY files/000-default.conf /etc/apache2/sites-available
 COPY files/ports.conf /etc/apache2
 COPY files/entrypoint.sh /usr/bin
 
 RUN curl -o /limesurvey.tar.bz2 https://download.limesurvey.org/latest-stable-release/limesurvey3.5.4+180320.tar.bz2
+RUN mkdir -p /var/www/html/tmp && \
+    mkdir -p /var/www/html/upload && \
+    mkdir -p /var/www/html/application/config
+RUN chown -R www-data /var/www/html
 
 # www-data:www-data
 USER 33:33
