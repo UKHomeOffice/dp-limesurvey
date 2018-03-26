@@ -22,6 +22,8 @@ spec:
           name: survey-upload
         - mountPath: /var/www/html/application/config
           name: survey-config
+        - mountPath: /certs
+          name: certs
       volumes:
       - name: survey-tmp
         hostPath:
@@ -32,3 +34,6 @@ spec:
       - name: survey-config
         hostPath:
           path: /tmp/survey-config
+      - name: certs
+        hostPath:
+          path: /tmp/certs
