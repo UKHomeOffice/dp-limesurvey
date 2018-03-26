@@ -15,3 +15,20 @@ spec:
         image: quay.io/ukhomeofficedigital/dp-limesurvey:latest
         ports:
           - containerPort: 10080
+        volumeMounts:
+        - mountPath: /var/www/html/tmp
+          name: survey-tmp
+        - mountPath: /var/www/html/upload
+          name: survey-upload
+        - mountPath: /var/www/html/application/config
+          name: survey-config
+      volumes:
+      - name: survey-tmp
+        hostPath:
+          path: /tmp/survey-tmp
+      - name: survey-upload
+        hostPath:
+          path: /tmp/survey-upload
+      - name: survey-config
+        hostPath:
+          path: /tmp/survey-config
