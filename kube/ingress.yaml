@@ -3,11 +3,13 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: dp-limesurvey-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/secure-backends: "true"
 spec:
   rules:
   - http:
       paths:
       - backend:
           serviceName: dp-limesurvey-service
-          servicePort: 10080
+          servicePort: 10443
         path: /

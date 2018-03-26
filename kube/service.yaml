@@ -10,6 +10,9 @@ spec:
   - name: http
     port: 10080
     targetPort: 10080
+  - name: https
+    port: 10443
+    targetPort: 10443
   selector:
     name: dp-limesurvey
 
