@@ -11,7 +11,7 @@ RUN rm /var/www/html/index.html
 COPY files/000-default.conf files/default-ssl.conf /etc/apache2/sites-available/
 COPY files/ports.conf /etc/apache2
 COPY files/entrypoint.sh /usr/bin
-# RUN a2enmod ssl && a2ensite default-ssl
+RUN a2enmod ssl && a2ensite default-ssl
 
 RUN curl -o /limesurvey.tar.bz2 https://download.limesurvey.org/latest-stable-release/limesurvey3.5.4+180320.tar.bz2
 RUN mkdir -p /var/www/html/tmp && \
