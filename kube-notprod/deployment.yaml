@@ -10,10 +10,42 @@ spec:
       labels:
         name: dp-limesurvey
     spec:
+      securityContext:
+        runAsUser: 33
       containers:
       - name: dp-survey
         image: quay.io/ukhomeofficedigital/dp-limesurvey:latest
         ports:
           - containerPort: 10080
+          - containerPort: 10443
         securityContext: 
           runAsNonRoot: true
+        volumeMounts:
+        - name: certs
+          mountPath: /certs
+          readOnly: true
+      - name: certs
+        image: quay.io/ukhomeofficedigital/cfssl-sidekick:v0.0.3
+        securityContext:
+          runAsNonRoot: true
+        args:
+        - --certs=/certs
+        - --domain=dp-limesurvey.${KUBE_NAMESPACE}.svc.cluster.local
+        - --expiry=8760h
+        env:
+        - name: KUBE_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        volumeMounts:
+        - name: certs
+          mountPath: /certs
+        - name: bundle
+          mountPath: /etc/ssl/certs
+          readOnly: true
+      volumes:
+      - name: bundle
+        configMap:
+          name: bundle
+      - name: certs
+        emptyDir: {}

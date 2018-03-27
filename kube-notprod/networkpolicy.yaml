@@ -12,6 +12,6 @@ spec:
             name: ingress-external
       ports:
         - protocol: TCP
-          port: 10080
+          port: 10443
 
 
