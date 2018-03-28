@@ -1,0 +1,13 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: limesurvey-tmp
+  annotations:
+    volume.beta.kubernetes.io/storage-class: gp2-encrypted-eu-west-2a
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi

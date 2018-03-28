@@ -12,6 +12,7 @@ spec:
     spec:
       securityContext:
         runAsUser: 33
+        fsGroup: 33
       containers:
       - name: dp-survey
         image: quay.io/ukhomeofficedigital/dp-limesurvey:latest
@@ -24,6 +25,12 @@ spec:
         - name: certs
           mountPath: /certs
           readOnly: true
+        - mountPath: /var/www/html/tmp
+          name: survey-tmp
+        - mountPath: /var/www/html/upload
+          name: survey-upload
+        - mountPath: /var/www/html/application/config
+          name: survey-config
       - name: certs
         image: quay.io/ukhomeofficedigital/cfssl-sidekick:v0.0.3
         securityContext:
@@ -49,3 +56,12 @@ spec:
           name: bundle
       - name: certs
         emptyDir: {}
+      - name: survey-tmp
+        persistentVolumeClaim:
+          claimName: limesurvey-tmp
+      - name: survey-upload
+        persistentVolumeClaim:
+          claimName: limesurvey-upload
+      - name: survey-config
+        persistentVolumeClaim:
+          claimName: limesurvey-config
