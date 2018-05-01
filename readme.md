@@ -17,17 +17,25 @@ Deployment
 ----------
 ```
 # Persistent volumes
-kd --context acp-notprod_DP \
+kd --context <context> \
 	--file kube-notprod/volume-config.yaml \
 	--file kube-notprod/volume-tmp.yaml \
 	--file kube-notprod/volume-upload.yaml
 
 # Application
-kd --context acp-notprod_DP \
+kd --context <context> \
 	--file kube-notprod/service.yaml \
 	--file kube-notprod/deployment.yaml \
 	--file kube-notprod/ingress.yaml \
 	--file kube-notprod/networkpolicy.yaml
 ```
 
+Deploy locally using the configuration in `kube`. You'll need to create a self-signed certificate in `/tmp/certs` by running `openssl req -x509 -newkey rsa:4096 -keyout tls-key.pem -out tls.pem -days 365 -nodes` and following the prompts.
+
+```
+kd --context <local_context> \
+	--file kube/service.yaml \
+	--file kube/deployment.yaml \
+	--file kube/ingress.yaml \
+```
 
