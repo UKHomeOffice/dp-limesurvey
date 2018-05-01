@@ -1,0 +1,67 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: dp-limesurvey
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: dp-limesurvey
+    spec:
+      securityContext:
+        runAsUser: 33
+        fsGroup: 33
+      containers:
+      - name: dp-survey
+        image: quay.io/ukhomeofficedigital/dp-limesurvey:latest
+        ports:
+          - containerPort: 10080
+          - containerPort: 10443
+        securityContext: 
+          runAsNonRoot: true
+        volumeMounts:
+        - name: certs
+          mountPath: /certs
+          readOnly: true
+        - mountPath: /var/www/html/tmp
+          name: survey-tmp
+        - mountPath: /var/www/html/upload
+          name: survey-upload
+        - mountPath: /var/www/html/application/config
+          name: survey-config
+      - name: certs
+        image: quay.io/ukhomeofficedigital/cfssl-sidekick:v0.0.3
+        securityContext:
+          runAsNonRoot: true
+        args:
+        - --certs=/certs
+        - --domain=dp-limesurvey.${KUBE_NAMESPACE}.svc.cluster.local
+        - --expiry=8760h
+        env:
+        - name: KUBE_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        volumeMounts:
+        - name: certs
+          mountPath: /certs
+        - name: bundle
+          mountPath: /etc/ssl/certs
+          readOnly: true
+      volumes:
+      - name: bundle
+        configMap:
+          name: bundle
+      - name: certs
+        emptyDir: {}
+      - name: survey-tmp
+        persistentVolumeClaim:
+          claimName: limesurvey-tmp
+      - name: survey-upload
+        persistentVolumeClaim:
+          claimName: limesurvey-upload
+      - name: survey-config
+        persistentVolumeClaim:
+          claimName: limesurvey-config
